@@ -14,19 +14,37 @@ import {
 @Injectable({
   providedIn: 'root',
 })
-export class ApiServiceService {
+export class ApiService {
   private apiUrl = 'https://user-assessment-api.vercel.app';
   constructor(private http: HttpClient) {}
 
+  /**
+   * Perfoms a user login operation.
+   *
+   * @param user  the user login request data
+   * @returns {Observable<UserResponse>} an Observable of type UserResponse
+   */
   login(user: UserLoginRequest): Observable<UserResponse> {
     return this.http.post<UserResponse>(`${this.apiUrl}/api/login`, user);
   }
 
+  /**
+   * Retrieves user assessments
+   *
+   * @returns {Observable<AssesmentResponse>} an Observable of type AssesmentResponse
+   */
   getAssesments(): Observable<AssesmentResponse> {
     return this.http.get<AssesmentResponse>(
       `${this.apiUrl}/api/userassessments`
     );
   }
+
+  /**
+   * Retrieves assesment grapg data for a specific assesment ID.
+   *
+   * @param id the id of the assesment
+   * @returns {Observable<AssesmentGraphResponse>} an Observable of type AssesmentGraphResponse
+   */
 
   getAssesmentGraph(id: number): Observable<AssesmentGraphResponse> {
     return this.http.get<AssesmentGraphResponse>(
@@ -37,6 +55,11 @@ export class ApiServiceService {
     );
   }
 
+  /**
+   * Retrieves user data.
+   *
+   * @returns {Observable<User>} an Observable of type User
+   */
   getUsers(): Observable<User> {
     return this.http.get<User>(`${this.apiUrl}/api/users`);
   }
