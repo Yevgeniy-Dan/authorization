@@ -55,6 +55,4 @@ export class LoginComponent {
         this.router.navigate(['/dashboard']);
       });
   }
-
-  openSnackBar(): void {}
 }

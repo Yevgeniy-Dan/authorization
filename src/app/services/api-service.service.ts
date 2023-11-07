@@ -48,9 +48,9 @@ export class ApiService {
 
   getAssesmentGraph(id: number): Observable<IAssesmentGraphResponse> {
     return this.http.get<IAssesmentGraphResponse>(
-      `${this.apiUrl}/api/userassessments`,
+      `${this.apiUrl}/api/userassessments/graph`,
       {
-        params: new HttpParams().set('id', id),
+        params: new HttpParams().set('id', `${id}`),
       }
     );
   }

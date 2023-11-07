@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 
 import { loadUserAssesments } from 'src/app/store/actions/user.actions';
 import { IAssesmentResponse } from 'src/app/interfaces/assesment.interface';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-user-assesment-cards',
@@ -24,7 +25,7 @@ export class UserAssesmentCardsComponent implements OnInit {
     selectUserAssesmentsLoading
   );
 
-  constructor(private store: Store<AppState>) {}
+  constructor(private store: Store<AppState>, private router: Router) {}
 
   ngOnInit(): void {
     this.calculateBreakpoint(window.innerWidth);
@@ -38,6 +39,12 @@ export class UserAssesmentCardsComponent implements OnInit {
   @HostListener('window:resize', ['$event'])
   onResize(event: Event): void {
     this.calculateBreakpoint((event.target as Window).innerWidth);
+  }
+
+  navigateToAssesment(card: IAssesmentResponse): void {
+    this.router.navigate(['/dashboard/userassesments', card.id], {
+      state: { cardData: card },
+    });
   }
 
   private calculateBreakpoint(width: number): void {

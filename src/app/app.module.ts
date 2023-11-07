@@ -20,10 +20,13 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 
+import { NgChartsModule } from 'ng2-charts';
+
 import * as fromUser from './store/reducers/user.reducer';
+import { GraphComponent } from './components/dashboard/graph/graph.component';
 
 @NgModule({
-  declarations: [AppComponent, UserAssesmentCardsComponent],
+  declarations: [AppComponent, UserAssesmentCardsComponent, GraphComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -33,6 +36,7 @@ import * as fromUser from './store/reducers/user.reducer';
     MatCardModule,
     MatProgressSpinnerModule,
     MatGridListModule,
+    NgChartsModule,
     StoreModule.forRoot({ user: fromUser.reducer }),
     EffectsModule.forRoot([UserEffects]),
     StoreDevtoolsModule.instrument({

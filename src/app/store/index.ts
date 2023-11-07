@@ -1,12 +1,17 @@
 import { createFeatureSelector, createSelector } from '@ngrx/store';
 
-import { IAssesmentResponse } from '../interfaces/assesment.interface';
+import {
+  IAssesmentGraphResponse,
+  IAssesmentResponse,
+} from '../interfaces/assesment.interface';
 
 export const userFeatureKey = 'user';
 
 export interface UserState {
   userAssesments: IAssesmentResponse[];
-  loading: boolean;
+  userAssesmentsloading: boolean;
+  graphData: IAssesmentGraphResponse;
+  graphDataLoading: boolean;
 }
 
 export interface AppState {
@@ -22,5 +27,15 @@ export const selectUserAssesments = createSelector(
 
 export const selectUserAssesmentsLoading = createSelector(
   selectUser,
-  (state: UserState) => state.loading
+  (state: UserState) => state.userAssesmentsloading
+);
+
+export const selectUserGraphData = createSelector(
+  selectUser,
+  (state: UserState) => state.graphData
+);
+
+export const selectUserGraphDataLoading = createSelector(
+  selectUser,
+  (state: UserState) => state.graphDataLoading
 );

@@ -10,7 +10,7 @@
     class="mat-grid-list"
   >
     <mat-grid-tile *ngFor="let card of userAssesments$ | async">
-      <mat-card class="card">
+      <mat-card class="card" (click)="navigateToAssesment(card)">
         <img [src]="card.image_url" alt="{{ card.name }}" class="card-image" />
         <mat-card-header>
           <mat-card-title>

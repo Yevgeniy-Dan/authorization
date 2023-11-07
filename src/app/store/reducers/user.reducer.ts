@@ -2,19 +2,28 @@ import { Action, createReducer, on } from '@ngrx/store';
 import * as userActions from '../actions/user.actions';
 
 import { UserState } from '..';
+import { IAssesmentGraphResponse } from 'src/app/interfaces/assesment.interface';
 
 export const initialState: UserState = {
   userAssesments: [],
-  loading: true,
+  userAssesmentsloading: true,
+  graphData: {} as IAssesmentGraphResponse,
+  graphDataLoading: true,
 };
 
 const userReducer = createReducer(
   initialState,
   on(userActions.loadUserAssesments, (state) => {
-    return { ...state, loading: true };
+    return { ...state, userAssesmentsloading: true };
   }),
   on(userActions.loadUserAssesmentsComplete, (state, { userAssesments }) => {
-    return { ...state, userAssesments, loading: false };
+    return { ...state, userAssesments, userAssesmentsloading: false };
+  }),
+  on(userActions.loadUserAssesmentsGraph, (state) => {
+    return { ...state, graphDataLoading: true };
+  }),
+  on(userActions.loadUserAssesmentsGraphComplete, (state, { graphData }) => {
+    return { ...state, graphDataLoading: false, graphData };
   })
 );
 
