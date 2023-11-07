@@ -1,4 +1,4 @@
-export interface AssesmentResponse {
+export interface IAssesmentResponse {
   id: number;
   name: string;
   users_resolved: number;
@@ -6,7 +6,7 @@ export interface AssesmentResponse {
   image_url: string;
 }
 
-export interface AssesmentGraphResponse {
+export interface IAssesmentGraphResponse {
   data: {
     agreeableness: number;
     drive: number;

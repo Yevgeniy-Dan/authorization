@@ -7,8 +7,8 @@ import {
 } from '../interfaces/user.interface';
 import { Observable } from 'rxjs';
 import {
-  AssesmentGraphResponse,
-  AssesmentResponse,
+  IAssesmentGraphResponse,
+  IAssesmentResponse,
 } from '../interfaces/assesment.interface';
 
 @Injectable({
@@ -31,10 +31,10 @@ export class ApiService {
   /**
    * Retrieves user assessments
    *
-   * @returns {Observable<AssesmentResponse>} an Observable of type AssesmentResponse
+   * @returns {Observable<IAssesmentResponse>} an Observable of type AssesmentResponse
    */
-  getAssesments(): Observable<AssesmentResponse> {
-    return this.http.get<AssesmentResponse>(
+  getAssesments(): Observable<IAssesmentResponse[]> {
+    return this.http.get<IAssesmentResponse[]>(
       `${this.apiUrl}/api/userassessments`
     );
   }
@@ -43,11 +43,11 @@ export class ApiService {
    * Retrieves assesment grapg data for a specific assesment ID.
    *
    * @param id the id of the assesment
-   * @returns {Observable<AssesmentGraphResponse>} an Observable of type AssesmentGraphResponse
+   * @returns {Observable<IAssesmentGraphResponse>} an Observable of type AssesmentGraphResponse
    */
 
-  getAssesmentGraph(id: number): Observable<AssesmentGraphResponse> {
-    return this.http.get<AssesmentGraphResponse>(
+  getAssesmentGraph(id: number): Observable<IAssesmentGraphResponse> {
+    return this.http.get<IAssesmentGraphResponse>(
       `${this.apiUrl}/api/userassessments`,
       {
         params: new HttpParams().set('id', id),
