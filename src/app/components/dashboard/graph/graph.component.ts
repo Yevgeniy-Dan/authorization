@@ -6,7 +6,7 @@ import {
 } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ChartConfiguration } from 'chart.js';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 
 import { IAssesmentGraphResponse } from 'src/app/interfaces/assesment.interface';
 import {
@@ -16,15 +16,18 @@ import {
 } from 'src/app/store';
 import { loadUserAssesmentsGraph } from 'src/app/store/actions/user.actions';
 
+/**
+ * GraphComponent: Manages the display of user assessment graphs.
+ * - Retrieves and displays assessment data using Chart.js.
+ */
 @Component({
   selector: 'app-graph',
   templateUrl: './graph.component.html',
   styleUrls: ['./graph.component.css'],
 })
 export class GraphComponent implements OnInit {
-  data$: Observable<IAssesmentGraphResponse> =
-    this.store.select(selectUserGraphData);
-  loading$: Observable<boolean> = this.store.select(selectUserGraphDataLoading);
+  data$: Observable<IAssesmentGraphResponse>;
+  loading$: Observable<boolean>;
 
   barChartLegend = false;
   barCharPlugins = [];
@@ -34,20 +37,37 @@ export class GraphComponent implements OnInit {
     responsive: true,
   };
 
-  constructor(private route: ActivatedRoute, private store: Store<AppState>) {}
+  private dataSubscription!: Subscription;
+
+  constructor(private route: ActivatedRoute, private store: Store<AppState>) {
+    this.data$ = this.store.select(selectUserGraphData);
+    this.loading$ = this.store.select(selectUserGraphDataLoading);
+  }
+
   ngOnInit(): void {
+    this.initializeGraphData();
+  }
+
+  private initializeGraphData(): void {
     const snapshot: ActivatedRouteSnapshot = this.route.snapshot;
     const assesmentId = +snapshot.params['id'];
     this.setCharts();
     this.getGraphData(assesmentId);
   }
 
+  /**
+   * Retrieves assessment graph data from the store.
+   * @param id The assessment ID to fetch data for.
+   */
   private getGraphData(id: number): void {
     this.store.dispatch(loadUserAssesmentsGraph({ id }));
   }
 
+  /**
+   * Sets the chart data using retrieved assessment data.
+   */
   private setCharts(): void {
-    this.data$.subscribe((data) => {
+    this.dataSubscription = this.data$.subscribe((data) => {
       if (data && data.data) {
         this.barChartData = {
           labels: Object.keys(data.data),
@@ -55,5 +75,9 @@ export class GraphComponent implements OnInit {
         };
       }
     });
+  }
+
+  ngOnDestroy(): void {
+    this.dataSubscription.unsubscribe();
   }
 }

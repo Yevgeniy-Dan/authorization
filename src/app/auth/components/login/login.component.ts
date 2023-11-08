@@ -9,9 +9,12 @@ import {
   UserResponse,
 } from 'src/app/interfaces/user.interface';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/store';
-
+/**
+ * LoginComponent: Manages user login functionality.
+ * - It handles user login form submission.
+ * - Uses the ApiService to send login requests.
+ * - Handles login success and error messages with MatSnackBar.
+ */
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -27,9 +30,12 @@ export class LoginComponent {
     private fb: FormBuilder,
     private apiService: ApiService,
     private _snackBar: MatSnackBar,
-    private router: Router,
+    private router: Router
   ) {}
 
+  /**
+   * Handles user login form submission.
+   */
   login(): void {
     const user: UserLoginRequest = {
       email: this.loginForm.get('email')?.value,
@@ -40,22 +46,36 @@ export class LoginComponent {
       .login(user)
       .pipe(
         catchError((error: any) => {
-          this._snackBar.open(
-            error && error.error && error.error.error,
-            'Close',
-            {
-              duration: 5000,
-            }
-          );
-          throw new Error(error && error.error && error.error.error);
+          const errorMessage =
+            (error && error.error && error.error.error) ||
+            'Something went wrong';
+          this.handleError(errorMessage);
+          throw new Error(errorMessage);
         })
       )
       .subscribe((response: UserResponse) => {
-        console.log(response);
-        localStorage.setItem('token', response.token);
-        localStorage.setItem('role', response.role);
-
-        this.router.navigate(['/dashboard']);
+        this.hanldeLoginSuccess(response);
       });
+  }
+
+  /**
+   * Handles displaying error messages using MatSnackBar.
+   * @param message The error message to display.
+   */
+  private handleError(message: string): void {
+    this._snackBar.open(message, 'Close', {
+      duration: 5000,
+    });
+  }
+
+  /**
+   * Handles actions upon a successful login.
+   * @param response The response received upon successful login.
+   */
+  private hanldeLoginSuccess(response: UserResponse): void {
+    localStorage.setItem('token', response.token);
+    localStorage.setItem('role', response.role);
+
+    this.router.navigate(['/dashboard']);
   }
 }
