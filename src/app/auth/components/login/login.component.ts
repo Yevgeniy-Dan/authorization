@@ -9,6 +9,8 @@ import {
   UserResponse,
 } from 'src/app/interfaces/user.interface';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store';
 
 @Component({
   selector: 'app-login',
@@ -25,7 +27,7 @@ export class LoginComponent {
     private fb: FormBuilder,
     private apiService: ApiService,
     private _snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
   ) {}
 
   login(): void {
@@ -52,6 +54,7 @@ export class LoginComponent {
         console.log(response);
         localStorage.setItem('token', response.token);
         localStorage.setItem('role', response.role);
+
         this.router.navigate(['/dashboard']);
       });
   }

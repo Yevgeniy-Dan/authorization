@@ -6,15 +6,11 @@ import {
 } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ChartConfiguration } from 'chart.js';
-import { Observable, map, take } from 'rxjs';
+import { Observable } from 'rxjs';
 
-import {
-  IAssesmentGraphResponse,
-  IAssesmentResponse,
-} from 'src/app/interfaces/assesment.interface';
+import { IAssesmentGraphResponse } from 'src/app/interfaces/assesment.interface';
 import {
   AppState,
-  selectUserAssesments,
   selectUserGraphData,
   selectUserGraphDataLoading,
 } from 'src/app/store';

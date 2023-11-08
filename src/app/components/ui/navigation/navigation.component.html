@@ -1,0 +1,24 @@
+<ng-container *ngIf="isAdmin">
+  <nav>
+    <ul class="nav-list">
+      <li>
+        <a
+          routerLink="/dashboard/assesments"
+          routerLinkActive="active"
+          ariaCurrentWhenActive="page"
+          class="nav-link"
+          >Assesments</a
+        >
+      </li>
+      <li>
+        <a
+          routerLink="/dashboard/users"
+          routerLinkActive="active"
+          ariaCurrentWhenActive="page"
+          class="nav-link"
+          >Users</a
+        >
+      </li>
+    </ul>
+  </nav>
+</ng-container>
