@@ -4,6 +4,7 @@ import {
   IAssesmentGraphResponse,
   IAssesmentResponse,
 } from '../interfaces/assesment.interface';
+import { User } from '../interfaces/user.interface';
 
 export const userFeatureKey = 'user';
 
@@ -12,6 +13,8 @@ export interface UserState {
   userAssesmentsloading: boolean;
   graphData: IAssesmentGraphResponse;
   graphDataLoading: boolean;
+  userData: User[];
+  userDataLoading: boolean;
 }
 
 export interface AppState {
@@ -38,4 +41,14 @@ export const selectUserGraphData = createSelector(
 export const selectUserGraphDataLoading = createSelector(
   selectUser,
   (state: UserState) => state.graphDataLoading
+);
+
+export const selectUserData = createSelector(
+  selectUser,
+  (state: UserState) => state.userData
+);
+
+export const selectUserDataLoading = createSelector(
+  selectUser,
+  (state: UserState) => state.userDataLoading
 );

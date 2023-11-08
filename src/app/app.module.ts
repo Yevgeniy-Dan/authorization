@@ -20,16 +20,25 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
 
 import { NgChartsModule } from 'ng2-charts';
 
 import * as fromUser from './store/reducers/user.reducer';
 import { GraphComponent } from './components/dashboard/graph/graph.component';
-import { NavigationComponent } from './components/ui/navigation/navigation.component';
+import { NavigationComponent } from './components/layout/navigation/navigation.component';
+import { UserTableComponent } from './components/dashboard/user-table/user-table.component';
 
 @NgModule({
-  declarations: [AppComponent, UserAssesmentCardsComponent, GraphComponent, NavigationComponent],
+  declarations: [
+    AppComponent,
+    UserAssesmentCardsComponent,
+    GraphComponent,
+    NavigationComponent,
+    UserTableComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -42,6 +51,8 @@ import { NavigationComponent } from './components/ui/navigation/navigation.compo
     NgChartsModule,
     MatButtonModule,
     MatSidenavModule,
+    MatPaginatorModule,
+    MatTableModule,
     StoreModule.forRoot({ user: fromUser.reducer }),
     EffectsModule.forRoot([UserEffects]),
     StoreDevtoolsModule.instrument({

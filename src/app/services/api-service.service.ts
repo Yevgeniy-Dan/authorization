@@ -60,7 +60,7 @@ export class ApiService {
    *
    * @returns {Observable<User>} an Observable of type User
    */
-  getUsers(): Observable<User> {
-    return this.http.get<User>(`${this.apiUrl}/api/users`);
+  getUsers(): Observable<User[]> {
+    return this.http.get<User[]>(`${this.apiUrl}/api/users`);
   }
 }

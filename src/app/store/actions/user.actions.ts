@@ -3,6 +3,7 @@ import {
   IAssesmentGraphResponse,
   IAssesmentResponse,
 } from 'src/app/interfaces/assesment.interface';
+import { User } from 'src/app/interfaces/user.interface';
 
 export const loadUserAssesments = createAction(
   '[Dashboard] Load User Assesments'
@@ -21,4 +22,11 @@ export const loadUserAssesmentsGraph = createAction(
 export const loadUserAssesmentsGraphComplete = createAction(
   '[Dashboard Assesment] Load Graph Assesments Complete',
   props<{ graphData: IAssesmentGraphResponse }>()
+);
+
+export const loadUserData = createAction('[User] Load User Table Data');
+
+export const loadUserDataComplete = createAction(
+  '[User] Load User Table Data Complete',
+  props<{ users: User[] }>()
 );

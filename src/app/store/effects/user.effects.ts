@@ -7,11 +7,14 @@ import {
   loadUserAssesmentsComplete,
   loadUserAssesmentsGraph,
   loadUserAssesmentsGraphComplete,
+  loadUserData,
+  loadUserDataComplete,
 } from '../actions/user.actions';
 import {
   IAssesmentGraphResponse,
   IAssesmentResponse,
 } from 'src/app/interfaces/assesment.interface';
+import { User } from 'src/app/interfaces/user.interface';
 
 @Injectable()
 export class UserEffects {
@@ -37,6 +40,18 @@ export class UserEffects {
           map((graphData: IAssesmentGraphResponse) =>
             loadUserAssesmentsGraphComplete({ graphData })
           ),
+          catchError(() => EMPTY)
+        );
+      })
+    )
+  );
+
+  loadUserData$ = createEffect(() =>
+    this.actions$.pipe(
+      ofType(loadUserData),
+      mergeMap((action) => {
+        return this.apiService.getUsers().pipe(
+          map((users: User[]) => loadUserDataComplete({ users })),
           catchError(() => EMPTY)
         );
       })

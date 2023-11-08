@@ -9,6 +9,8 @@ export const initialState: UserState = {
   userAssesmentsloading: true,
   graphData: {} as IAssesmentGraphResponse,
   graphDataLoading: true,
+  userData: [],
+  userDataLoading: true,
 };
 
 const userReducer = createReducer(
@@ -24,6 +26,12 @@ const userReducer = createReducer(
   }),
   on(userActions.loadUserAssesmentsGraphComplete, (state, { graphData }) => {
     return { ...state, graphDataLoading: false, graphData };
+  }),
+  on(userActions.loadUserData, (state) => {
+    return { ...state, userDataLoading: true };
+  }),
+  on(userActions.loadUserDataComplete, (state, { users }) => {
+    return { ...state, userDataLoading: false, userData: users };
   })
 );
 

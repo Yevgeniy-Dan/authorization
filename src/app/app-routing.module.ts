@@ -5,6 +5,8 @@ import { LoginComponent } from './auth/components/login/login.component';
 import { authGuard } from './auth/auth.guard';
 import { UserAssesmentCardsComponent } from './components/dashboard/user-assesment-cards/user-assesment-cards.component';
 import { GraphComponent } from './components/dashboard/graph/graph.component';
+import { UserTableComponent } from './components/dashboard/user-table/user-table.component';
+import { adminGuard } from './auth/admin.guard';
 
 const routes: Routes = [
   { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -18,6 +20,11 @@ const routes: Routes = [
       {
         path: 'userassesments',
         component: UserAssesmentCardsComponent,
+      },
+      {
+        path: 'users',
+        component: UserTableComponent,
+        canActivate: [adminGuard],
       },
     ],
   },
