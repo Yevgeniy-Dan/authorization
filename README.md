@@ -1,3 +1,7 @@
+# Deployment
+
+You can view the deployment by going to here(https://authorization-phi.vercel.app/).
+
 # Authorization
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.2.9.
