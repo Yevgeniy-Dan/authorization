@@ -1,6 +1,9 @@
-import { Component } from '@angular/core';
-import { catchError } from 'rxjs/operators';
+import { Component, OnInit } from '@angular/core';
+import { catchError, take } from 'rxjs/operators';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ApiService } from 'src/app/services/api-service.service';
@@ -8,9 +11,7 @@ import {
   UserLoginRequest,
   UserResponse,
 } from 'src/app/interfaces/user.interface';
-import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/store';
+import { AppState, selectIsLoggedIn } from 'src/app/store';
 import { login } from 'src/app/store/actions/user.actions';
 import { UserDto } from 'src/app/dtos/user-dto';
 /**
@@ -24,7 +25,7 @@ import { UserDto } from 'src/app/dtos/user-dto';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent {
+export class LoginComponent implements OnInit {
   loginForm: FormGroup = this.fb.group({
     email: [null, [Validators.required, Validators.email]],
     password: [null, [Validators.required]],
@@ -37,6 +38,15 @@ export class LoginComponent {
     private router: Router,
     private store: Store<AppState>
   ) {}
+
+  ngOnInit(): void {
+    this.store
+      .select(selectIsLoggedIn)
+      .pipe(take(1))
+      .subscribe((isLoggedIn) => {
+        this.router.navigate(['dashboard']);
+      });
+  }
 
   /**
    * Handles user login form submission.
