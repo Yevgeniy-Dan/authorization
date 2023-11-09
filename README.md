@@ -1,6 +1,6 @@
 # Deployment
 
-You can view the deployment by going to here(https://authorization-phi.vercel.app/).
+You can view the deployment by going to [here](https://authorization-phi.vercel.app/).
 
 # Authorization
 
