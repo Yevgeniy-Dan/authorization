@@ -1,4 +1,5 @@
 import { createAction, props } from '@ngrx/store';
+import { UserDto } from 'src/app/dtos/user-dto';
 import {
   IAssesmentGraphResponse,
   IAssesmentResponse,
@@ -30,3 +31,7 @@ export const loadUserDataComplete = createAction(
   '[User] Load User Table Data Complete',
   props<{ users: User[] }>()
 );
+
+export const login = createAction('[User] Login', props<{ user: UserDto }>());
+
+export const logout = createAction('[User] Logout');

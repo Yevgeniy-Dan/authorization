@@ -53,7 +53,10 @@ import { UserTableComponent } from './components/dashboard/user-table/user-table
     MatSidenavModule,
     MatPaginatorModule,
     MatTableModule,
-    StoreModule.forRoot({ user: fromUser.reducer }),
+    StoreModule.forRoot(
+      { user: fromUser.reducer },
+      { metaReducers: [fromUser.localStorageSyncReducer] }
+    ),
     EffectsModule.forRoot([UserEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,

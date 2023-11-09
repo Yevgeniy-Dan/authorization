@@ -9,6 +9,10 @@ import {
   UserResponse,
 } from 'src/app/interfaces/user.interface';
 import { Router } from '@angular/router';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store';
+import { login } from 'src/app/store/actions/user.actions';
+import { UserDto } from 'src/app/dtos/user-dto';
 /**
  * LoginComponent: Manages user login functionality.
  * - It handles user login form submission.
@@ -30,7 +34,8 @@ export class LoginComponent {
     private fb: FormBuilder,
     private apiService: ApiService,
     private _snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private store: Store<AppState>
   ) {}
 
   /**
@@ -42,6 +47,7 @@ export class LoginComponent {
       password: this.loginForm.get('password')?.value,
     };
 
+    //TODO: Ask if it's good practice don't use state here
     this.apiService
       .login(user)
       .pipe(
@@ -76,6 +82,11 @@ export class LoginComponent {
     localStorage.setItem('token', response.token);
     localStorage.setItem('role', response.role);
 
+    const isAdmin = response.role === 'Admin';
+    const { token, role, ...user } = response;
+    const updatedUser: UserDto = { ...user, isAdmin };
+
+    this.store.dispatch(login({ user: updatedUser }));
     this.router.navigate(['/dashboard']);
   }
 }

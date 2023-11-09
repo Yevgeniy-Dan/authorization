@@ -5,6 +5,7 @@ import {
   IAssesmentResponse,
 } from '../interfaces/assesment.interface';
 import { User } from '../interfaces/user.interface';
+import { UserDto } from '../dtos/user-dto';
 
 export const userFeatureKey = 'user';
 
@@ -15,6 +16,8 @@ export interface UserState {
   graphDataLoading: boolean;
   userData: User[];
   userDataLoading: boolean;
+  isLoggedIn: boolean;
+  user: UserDto | null;
 }
 
 export interface AppState {
@@ -22,6 +25,16 @@ export interface AppState {
 }
 
 export const selectUser = createFeatureSelector<UserState>(userFeatureKey);
+
+export const selectIsLoggedIn = createSelector(
+  selectUser,
+  (state: UserState) => state.isLoggedIn
+);
+
+export const selectCurrentUser = createSelector(
+  selectUser,
+  (state: UserState) => state.user
+);
 
 export const selectUserAssesments = createSelector(
   selectUser,
@@ -43,12 +56,12 @@ export const selectUserGraphDataLoading = createSelector(
   (state: UserState) => state.graphDataLoading
 );
 
-export const selectUserData = createSelector(
+export const selectUserTableData = createSelector(
   selectUser,
   (state: UserState) => state.userData
 );
 
-export const selectUserDataLoading = createSelector(
+export const selectUserTableDataLoading = createSelector(
   selectUser,
   (state: UserState) => state.userDataLoading
 );

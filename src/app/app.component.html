@@ -1,4 +1,13 @@
 <div class="container">
-  <app-navigation></app-navigation>
+  <div [ngClass]="{ 'justify-end': !isAdmin }" class="header">
+    <ng-container *ngIf="isLoggedIn">
+      <div *ngIf="isAdmin">
+        <app-navigation></app-navigation>
+      </div>
+      <div class="logout-button-container">
+        <button mat-raised-button (click)="logout()">Logout</button>
+      </div>
+    </ng-container>
+  </div>
   <router-outlet></router-outlet>
 </div>

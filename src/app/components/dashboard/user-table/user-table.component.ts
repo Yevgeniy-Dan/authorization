@@ -4,7 +4,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/interfaces/user.interface';
-import { AppState, selectUserData } from 'src/app/store';
+import { AppState, selectUserTableData } from 'src/app/store';
 import { loadUserData } from 'src/app/store/actions/user.actions';
 
 @Component({
@@ -28,7 +28,7 @@ export class UserTableComponent implements AfterViewInit {
   userData$: Observable<User[]>;
 
   constructor(private store: Store<AppState>) {
-    this.userData$ = this.store.select(selectUserData);
+    this.userData$ = this.store.select(selectUserTableData);
   }
 
   ngOnInit(): void {
