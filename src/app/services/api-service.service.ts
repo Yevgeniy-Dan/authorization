@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {
-  User,
-  UserLoginRequest,
-  UserResponse,
+  IUser,
+  IUserLoginRequest,
+  IUserResponse,
 } from '../interfaces/user.interface';
 import { Observable } from 'rxjs';
 import {
@@ -17,16 +17,6 @@ import { apiUrl } from '../constants/environment';
 })
 export class ApiService {
   constructor(private http: HttpClient) {}
-
-  /**
-   * Perfoms a user login operation.
-   *
-   * @param user  the user login request data
-   * @returns {Observable<UserResponse>} an Observable of type UserResponse
-   */
-  login(user: UserLoginRequest): Observable<UserResponse> {
-    return this.http.post<UserResponse>(`${apiUrl}/api/login`, user);
-  }
 
   /**
    * Retrieves user assessments
@@ -56,9 +46,9 @@ export class ApiService {
   /**
    * Retrieves user data.
    *
-   * @returns {Observable<User>} an Observable of type User
+   * @returns {Observable<IUser>} an Observable of type User
    */
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${apiUrl}/api/users`);
+  getUsers(): Observable<IUser[]> {
+    return this.http.get<IUser[]>(`${apiUrl}/api/users`);
   }
 }

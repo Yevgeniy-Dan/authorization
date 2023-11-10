@@ -3,7 +3,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { User } from 'src/app/interfaces/user.interface';
+import { IUser } from 'src/app/interfaces/user.interface';
 import { AppState, selectUserTableData } from 'src/app/store';
 import { loadUserData } from 'src/app/store/actions/user.actions';
 
@@ -22,10 +22,10 @@ export class UserTableComponent implements AfterViewInit {
     'position',
   ];
 
-  dataSource = new MatTableDataSource<User>();
+  dataSource = new MatTableDataSource<IUser>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  userData$: Observable<User[]>;
+  userData$: Observable<IUser[]>;
 
   constructor(private store: Store<AppState>) {
     this.userData$ = this.store.select(selectUserTableData);
@@ -33,7 +33,7 @@ export class UserTableComponent implements AfterViewInit {
 
   ngOnInit(): void {
     this.getUserData();
-    this.userData$.subscribe((data: User[]) => {
+    this.userData$.subscribe((data: IUser[]) => {
       this.dataSource.data = data;
     });
   }

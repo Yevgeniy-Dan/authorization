@@ -1,4 +1,4 @@
-export interface User {
+export interface IUser {
   name: string;
   lastName: string;
   dateOfBirth: string;
@@ -7,12 +7,12 @@ export interface User {
   position: string;
 }
 
-export interface UserLoginRequest {
+export interface IUserLoginRequest {
   email: string;
   password: string;
 }
 
-export interface UserResponse {
+export interface IUserResponse {
   first_name: string;
   last_name: string;
   readonly role: string;

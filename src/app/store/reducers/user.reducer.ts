@@ -5,6 +5,7 @@ import { UserState } from '..';
 import { IAssesmentGraphResponse } from 'src/app/interfaces/assesment.interface';
 import { UserDto } from 'src/app/dtos/user-dto';
 import { localStorageSync } from 'ngrx-store-localstorage';
+import { IUserLoginRequest } from 'src/app/interfaces/user.interface';
 
 export const initialState: UserState = {
   isLoggedIn: false,
@@ -14,16 +15,16 @@ export const initialState: UserState = {
   graphDataLoading: true,
   userData: [],
   userDataLoading: true,
-  user: null,
+  user: {} as IUserLoginRequest,
 };
 
 const userReducer = createReducer(
   initialState,
   on(userActions.login, (state, action) => {
-    return { ...state, isLoggedIn: true, user: action.user };
+    return { ...state, user: action.user };
   }),
   on(userActions.logout, (state) => {
-    return { ...state, isLoggedIn: false, user: null };
+    return { ...state, isLoggedIn: false, user: {} as IUserLoginRequest };
   }),
   on(userActions.loadUserAssesments, (state) => {
     return { ...state, userAssesmentsloading: true };

@@ -1,15 +1,4 @@
 <div class="container">
-  <div class="header" [ngClass]="{ 'justify-end': !(isAdmin$ | async) }">
-    <ng-container *ngIf="isLoggedIn$ | async">
-      <ng-container *ngIf="isAdmin$ | async; let isAdmin">
-        <div *ngIf="isAdmin">
-          <app-navigation></app-navigation>
-        </div>
-      </ng-container>
-      <div class="logout-button-container">
-        <button mat-raised-button (click)="logout()">Logout</button>
-      </div>
-    </ng-container>
-  </div>
+  <app-navigation></app-navigation>
   <router-outlet></router-outlet>
 </div>

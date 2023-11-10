@@ -4,7 +4,7 @@ import {
   IAssesmentGraphResponse,
   IAssesmentResponse,
 } from '../interfaces/assesment.interface';
-import { User } from '../interfaces/user.interface';
+import { IUser, IUserLoginRequest } from '../interfaces/user.interface';
 import { UserDto } from '../dtos/user-dto';
 
 export const userFeatureKey = 'user';
@@ -14,10 +14,10 @@ export interface UserState {
   userAssesmentsloading: boolean;
   graphData: IAssesmentGraphResponse;
   graphDataLoading: boolean;
-  userData: User[];
+  userData: IUser[];
   userDataLoading: boolean;
   isLoggedIn: boolean;
-  user: UserDto | null;
+  user: IUserLoginRequest;
 }
 
 export interface AppState {
