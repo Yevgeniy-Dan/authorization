@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 
 import { AppState, selectCurrentUser, selectIsLoggedIn } from './store';
 import { logout } from './store/actions/user.actions';
-import { Subject, takeUntil } from 'rxjs';
+import { Observable, Subject, map, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -12,25 +12,20 @@ import { Subject, takeUntil } from 'rxjs';
   styleUrls: ['./app.component.css'],
 })
 export class AppComponent implements OnDestroy {
-  isAdmin: boolean | undefined;
-  isLoggedIn: boolean | undefined;
+  isAdmin$: Observable<boolean | undefined>;
+  isLoggedIn$: Observable<boolean | undefined>;
 
   private onDestroy$ = new Subject<void>();
 
   constructor(private store: Store<AppState>, private router: Router) {
-    this.store
+    this.isLoggedIn$ = this.store
       .select(selectIsLoggedIn)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((isLoggedIn) => {
-        this.isLoggedIn = isLoggedIn;
-      });
+      .pipe(takeUntil(this.onDestroy$));
 
-    this.store
-      .select(selectCurrentUser)
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((user) => {
-        this.isAdmin = user?.isAdmin;
-      });
+    this.isAdmin$ = this.store.select(selectCurrentUser).pipe(
+      takeUntil(this.onDestroy$),
+      map((user) => user?.isAdmin)
+    );
   }
 
   ngOnDestroy(): void {
