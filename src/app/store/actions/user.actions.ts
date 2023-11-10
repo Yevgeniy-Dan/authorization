@@ -1,9 +1,15 @@
 import { createAction, props } from '@ngrx/store';
+import { UserDto } from 'src/app/dtos/user-dto';
 import {
   IAssesmentGraphResponse,
   IAssesmentResponse,
 } from 'src/app/interfaces/assesment.interface';
-import { IUser } from 'src/app/interfaces/user.interface';
+import { IUserTableEntity } from 'src/app/interfaces/user.interface';
+
+export const setCurrentUser = createAction(
+  '[User] Set Current User Entity',
+  props<{ user: UserDto }>()
+);
 
 export const loadUserAssesments = createAction(
   '[Dashboard] Load User Assesments'
@@ -28,5 +34,5 @@ export const loadUserData = createAction('[User] Load User Table Data');
 
 export const loadUserDataComplete = createAction(
   '[User] Load User Table Data Complete',
-  props<{ users: IUser[] }>()
+  props<{ users: IUserTableEntity[] }>()
 );

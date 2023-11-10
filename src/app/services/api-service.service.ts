@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import {
+  IUserTableEntity,
+  IUserCredentials,
   IUser,
-  IUserLoginRequest,
-  IUserResponse,
 } from '../interfaces/user.interface';
 import { Observable } from 'rxjs';
 import {
@@ -46,9 +46,9 @@ export class ApiService {
   /**
    * Retrieves user data.
    *
-   * @returns {Observable<IUser>} an Observable of type User
+   * @returns {Observable<IUserTableEntity>} an Observable of type User
    */
-  getUsers(): Observable<IUser[]> {
-    return this.http.get<IUser[]>(`${apiUrl}/api/users`);
+  getUsers(): Observable<IUserTableEntity[]> {
+    return this.http.get<IUserTableEntity[]>(`${apiUrl}/api/users`);
   }
 }

@@ -1,19 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import {
-  ActivatedRoute,
-  ActivatedRouteSnapshot,
-  Router,
-} from '@angular/router';
+import { ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { ChartConfiguration } from 'chart.js';
 import { Observable, Subscription } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { IAssesmentGraphResponse } from 'src/app/interfaces/assesment.interface';
-import {
-  AppState,
-  selectUserGraphData,
-  selectUserGraphDataLoading,
-} from 'src/app/store';
+import { AppState, selectAssesmentGraphData } from 'src/app/store';
 import { loadUserAssesmentsGraph } from 'src/app/store/actions/user.actions';
 
 /**
@@ -40,8 +33,12 @@ export class GraphComponent implements OnInit {
   private dataSubscription!: Subscription;
 
   constructor(private route: ActivatedRoute, private store: Store<AppState>) {
-    this.data$ = this.store.select(selectUserGraphData);
-    this.loading$ = this.store.select(selectUserGraphDataLoading);
+    this.data$ = this.store
+      .select(selectAssesmentGraphData)
+      .pipe(map((graph) => graph.data));
+    this.loading$ = this.store
+      .select(selectAssesmentGraphData)
+      .pipe(map((graph) => graph.loading));
   }
 
   ngOnInit(): void {

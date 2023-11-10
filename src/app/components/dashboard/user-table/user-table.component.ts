@@ -3,7 +3,9 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { IUser } from 'src/app/interfaces/user.interface';
+import { map } from 'rxjs/operators';
+
+import { IUserTableEntity } from 'src/app/interfaces/user.interface';
 import { AppState, selectUserTableData } from 'src/app/store';
 import { loadUserData } from 'src/app/store/actions/user.actions';
 
@@ -22,18 +24,20 @@ export class UserTableComponent implements AfterViewInit {
     'position',
   ];
 
-  dataSource = new MatTableDataSource<IUser>();
+  dataSource = new MatTableDataSource<IUserTableEntity>();
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-  userData$: Observable<IUser[]>;
+  userData$: Observable<IUserTableEntity[]>;
 
   constructor(private store: Store<AppState>) {
-    this.userData$ = this.store.select(selectUserTableData);
+    this.userData$ = this.store
+      .select(selectUserTableData)
+      .pipe(map((userTableData) => userTableData.data));
   }
 
   ngOnInit(): void {
-    this.getUserData();
-    this.userData$.subscribe((data: IUser[]) => {
+    this.loadUserData();
+    this.userData$.subscribe((data: IUserTableEntity[]) => {
       this.dataSource.data = data;
     });
   }
@@ -45,7 +49,7 @@ export class UserTableComponent implements AfterViewInit {
   /**
    * Load users from store
    */
-  private getUserData(): void {
+  private loadUserData(): void {
     this.store.dispatch(loadUserData());
   }
 }

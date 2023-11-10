@@ -4,19 +4,29 @@ import {
   IAssesmentGraphResponse,
   IAssesmentResponse,
 } from '../interfaces/assesment.interface';
-import { IUser, IUserLoginRequest } from '../interfaces/user.interface';
+import {
+  IUserTableEntity,
+  IUserCredentials,
+} from '../interfaces/user.interface';
 import { UserDto } from '../dtos/user-dto';
 
 export const userFeatureKey = 'user';
 
 export interface UserState {
-  userAssesments: IAssesmentResponse[];
-  userAssesmentsloading: boolean;
-  graphData: IAssesmentGraphResponse;
-  graphDataLoading: boolean;
-  userData: IUser[];
-  userDataLoading: boolean;
-  user: IUserLoginRequest;
+  userAssesments: {
+    data: IAssesmentResponse[];
+    loading: boolean;
+  };
+  graphData: {
+    data: IAssesmentGraphResponse;
+    loading: boolean;
+  };
+  userTableData: {
+    data: IUserTableEntity[];
+    loading: boolean;
+  };
+  userCredentials: IUserCredentials;
+  user: UserDto;
 }
 
 export interface AppState {
@@ -25,32 +35,22 @@ export interface AppState {
 
 export const selectUser = createFeatureSelector<UserState>(userFeatureKey);
 
+export const selectCurrentUser = createSelector(
+  selectUser,
+  (state: UserState) => state.user
+);
+
 export const selectUserAssesments = createSelector(
   selectUser,
   (state: UserState) => state.userAssesments
 );
 
-export const selectUserAssesmentsLoading = createSelector(
-  selectUser,
-  (state: UserState) => state.userAssesmentsloading
-);
-
-export const selectUserGraphData = createSelector(
+export const selectAssesmentGraphData = createSelector(
   selectUser,
   (state: UserState) => state.graphData
 );
 
-export const selectUserGraphDataLoading = createSelector(
-  selectUser,
-  (state: UserState) => state.graphDataLoading
-);
-
 export const selectUserTableData = createSelector(
   selectUser,
-  (state: UserState) => state.userData
-);
-
-export const selectUserTableDataLoading = createSelector(
-  selectUser,
-  (state: UserState) => state.userDataLoading
+  (state: UserState) => state.userTableData
 );

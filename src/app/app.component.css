@@ -2,26 +2,3 @@
   padding: 50px;
   width: 100%;
 }
-
-.justify-end {
-  justify-content: end;
-}
-
-@media (max-width: 400px) {
-  .header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .justify-end {
-    align-items: flex-end;
-  }
-
-  button.mat-raised-button {
-    order: 1;
-  }
-
-  app-navigation {
-    order: 2;
-  }
-}

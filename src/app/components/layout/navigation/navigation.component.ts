@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { take } from 'rxjs/operators';
+
 import { AuthService } from 'src/app/auth/services/auth.service';
-import { AppState } from 'src/app/store';
+import { UserDto } from 'src/app/dtos/user-dto';
+import { AppState, selectCurrentUser } from 'src/app/store';
 import { logout } from 'src/app/store/actions/auth.actions';
 
 @Component({
@@ -10,20 +13,13 @@ import { logout } from 'src/app/store/actions/auth.actions';
   templateUrl: './navigation.component.html',
   styleUrls: ['./navigation.component.css'],
 })
-export class NavigationComponent implements OnInit {
-  isAdmin!: boolean;
-  isAuthorized!: boolean;
+export class NavigationComponent {
+  currentUser$: Observable<UserDto> = this.store.select(selectCurrentUser);
 
   constructor(
     private authService: AuthService,
-    private store: Store<AppState>,
-    private router: Router
+    private store: Store<AppState>
   ) {}
-
-  ngOnInit(): void {
-    this.isAdmin = this.authService.isAdmin();
-    this.isAuthorized = this.authService.isAuthorized();
-  }
 
   /**
    * Logout from account

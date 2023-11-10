@@ -1,11 +1,8 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import {
-  AppState,
-  selectUserAssesments,
-  selectUserAssesmentsLoading,
-} from 'src/app/store';
+import { AppState, selectUserAssesments } from 'src/app/store';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { loadUserAssesments } from 'src/app/store/actions/user.actions';
 import { IAssesmentResponse } from 'src/app/interfaces/assesment.interface';
@@ -28,8 +25,12 @@ export class UserAssesmentCardsComponent implements OnInit {
   loading$: Observable<boolean>;
 
   constructor(private store: Store<AppState>, private router: Router) {
-    this.userAssesments$ = this.store.select(selectUserAssesments);
-    this.loading$ = this.store.select(selectUserAssesmentsLoading);
+    this.userAssesments$ = this.store
+      .select(selectUserAssesments)
+      .pipe(map((assesments) => assesments.data));
+    this.loading$ = this.store
+      .select(selectUserAssesments)
+      .pipe(map((assesments) => assesments.loading));
   }
 
   ngOnInit(): void {

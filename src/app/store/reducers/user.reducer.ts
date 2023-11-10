@@ -3,39 +3,92 @@ import * as userActions from '../actions/user.actions';
 import * as authActions from '../actions/auth.actions';
 
 import { UserState } from '..';
-import { IAssesmentGraphResponse } from 'src/app/interfaces/assesment.interface';
+import {
+  IAssesmentGraphResponse,
+  IAssesmentResponse,
+} from 'src/app/interfaces/assesment.interface';
 import { localStorageSync } from 'ngrx-store-localstorage';
-import { IUserLoginRequest } from 'src/app/interfaces/user.interface';
+import { IUserCredentials } from 'src/app/interfaces/user.interface';
+import { UserDto } from 'src/app/dtos/user-dto';
 
 export const initialState: UserState = {
-  userAssesments: [],
-  userAssesmentsloading: true,
-  graphData: {} as IAssesmentGraphResponse,
-  graphDataLoading: true,
-  userData: [],
-  userDataLoading: true,
-  user: {} as IUserLoginRequest,
+  userAssesments: {
+    data: {} as IAssesmentResponse[],
+    loading: false,
+  },
+  graphData: {
+    data: {} as IAssesmentGraphResponse,
+    loading: false,
+  },
+  userTableData: {
+    data: [],
+    loading: false,
+  },
+  userCredentials: {} as IUserCredentials,
+  user: {} as UserDto,
 };
 
 const userReducer = createReducer(
   initialState,
+  on(userActions.setCurrentUser, (state, { user }) => {
+    return { ...state, user };
+  }),
+  on(authActions.logout, () => {
+    return initialState;
+  }),
   on(userActions.loadUserAssesments, (state) => {
-    return { ...state, userAssesmentsloading: true };
+    return {
+      ...state,
+      userAssesments: {
+        ...state.userAssesments,
+        loading: true,
+      },
+    };
   }),
   on(userActions.loadUserAssesmentsComplete, (state, { userAssesments }) => {
-    return { ...state, userAssesments, userAssesmentsloading: false };
+    return {
+      ...state,
+      userAssesments: {
+        data: userAssesments,
+        loading: false,
+      },
+    };
   }),
   on(userActions.loadUserAssesmentsGraph, (state) => {
-    return { ...state, graphDataLoading: true };
+    return {
+      ...state,
+      graphData: {
+        ...state.graphData,
+        loading: true,
+      },
+    };
   }),
   on(userActions.loadUserAssesmentsGraphComplete, (state, { graphData }) => {
-    return { ...state, graphDataLoading: false, graphData };
+    return {
+      ...state,
+      graphData: {
+        data: graphData,
+        loading: false,
+      },
+    };
   }),
   on(userActions.loadUserData, (state) => {
-    return { ...state, userDataLoading: true };
+    return {
+      ...state,
+      userTableData: {
+        ...state.userTableData,
+        loading: true,
+      },
+    };
   }),
   on(userActions.loadUserDataComplete, (state, { users }) => {
-    return { ...state, userDataLoading: false, userData: users };
+    return {
+      ...state,
+      userTableData: {
+        data: users,
+        loading: false,
+      },
+    };
   })
 );
 

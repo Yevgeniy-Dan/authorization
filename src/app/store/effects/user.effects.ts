@@ -10,9 +10,9 @@ import {
   IAssesmentResponse,
 } from 'src/app/interfaces/assesment.interface';
 import {
+  IUserTableEntity,
+  IUserCredentials,
   IUser,
-  IUserLoginRequest,
-  IUserResponse,
 } from 'src/app/interfaces/user.interface';
 import {
   loadUserAssesments,
@@ -21,12 +21,15 @@ import {
   loadUserAssesmentsGraphComplete,
   loadUserData,
   loadUserDataComplete,
+  setCurrentUser,
 } from '../actions/user.actions';
 
 import { login, logout } from '../actions/auth.actions';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserDto } from 'src/app/dtos/user-dto';
 import { AuthService } from 'src/app/auth/services/auth.service';
+import { Store } from '@ngrx/store';
+import { AppState } from '..';
 
 @Injectable()
 export class UserEffects {
@@ -34,9 +37,9 @@ export class UserEffects {
     () =>
       this.actions$.pipe(
         ofType(login),
-        switchMap((action: { user: IUserLoginRequest }) => {
+        switchMap((action: { user: IUserCredentials }) => {
           return this.authService.login(action.user).pipe(
-            map((response: IUserResponse) => this.hanldeLoginSuccess(response)),
+            map((response: IUser) => this.hanldeLoginSuccess(response)),
             catchError((error: any) =>
               of(
                 this.handleError(
@@ -96,7 +99,7 @@ export class UserEffects {
       ofType(loadUserData),
       mergeMap((action) => {
         return this.apiService.getUsers().pipe(
-          map((users: IUser[]) => loadUserDataComplete({ users })),
+          map((users: IUserTableEntity[]) => loadUserDataComplete({ users })),
           catchError(() => EMPTY)
         );
       })
@@ -108,6 +111,7 @@ export class UserEffects {
     private apiService: ApiService,
     private authService: AuthService,
     private router: Router,
+    private store: Store<AppState>,
     private _snackBar: MatSnackBar
   ) {}
 
@@ -125,15 +129,15 @@ export class UserEffects {
    * Handles actions upon a successful login.
    * @param response The response received upon successful login.
    */
-  private hanldeLoginSuccess(response: IUserResponse): void {
+  private hanldeLoginSuccess(response: IUser): void {
     localStorage.setItem('token', response.token);
     localStorage.setItem('role', response.role);
 
-    // const isAdmin = response.role === 'Admin';
-    // const { token, role, ...user } = response;
-    // const updatedUser: UserDto = { ...user, isAdmin };
+    const isAdmin = response.role === 'Admin';
+    const { token, role, ...user } = response;
+    const updatedUser: UserDto = { ...user, isAdmin, isAuthorized: true };
 
-    // this.store.dispatch(login({ user: updatedUser }));
+    this.store.dispatch(setCurrentUser({ user: updatedUser }));
     this.router.navigate(['dashboard']);
   }
 }

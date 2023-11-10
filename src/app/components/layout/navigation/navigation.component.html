@@ -1,18 +1,21 @@
-<div class="header">
-  <nav class="nav-container">
+<nav
+  class="nav-container"
+  class="header"
+  *ngIf="(currentUser$ | async)?.isAuthorized"
+>
+  <ng-container>
     <ul class="nav-list">
-      <ng-container *ngIf="isAuthorized">
-        <li>
-          <a
-            routerLink="/dashboard/assesments"
-            routerLinkActive="active"
-            ariaCurrentWhenActive="page"
-            class="nav-link"
-            >Assesments</a
-          >
-        </li>
-      </ng-container>
-      <ng-container *ngIf="isAuthorized && isAdmin">
+      <li>
+        <!-- TODO: Apply paths from constants src/app/constants/routes.ts  -->
+        <a
+          routerLink="/dashboard/assesments"
+          routerLinkActive="active"
+          ariaCurrentWhenActive="page"
+          class="nav-link"
+          >Assesments</a
+        >
+      </li>
+      <ng-container *ngIf="(currentUser$ | async)?.isAdmin">
         <li>
           <a
             routerLink="/dashboard/users"
@@ -24,8 +27,8 @@
         </li>
       </ng-container>
     </ul>
-    <div class="logout-button-container" *ngIf="isAuthorized">
-      <button mat-raised-button (click)="logout()">Logout</button>
-    </div>
-  </nav>
-</div>
+  </ng-container>
+  <div class="logout-button-container">
+    <button mat-raised-button (click)="logout()">Logout</button>
+  </div>
+</nav>

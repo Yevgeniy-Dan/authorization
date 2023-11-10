@@ -1,4 +1,4 @@
-export interface IUser {
+export interface IUserTableEntity {
   name: string;
   lastName: string;
   dateOfBirth: string;
@@ -7,12 +7,12 @@ export interface IUser {
   position: string;
 }
 
-export interface IUserLoginRequest {
+export interface IUserCredentials {
   email: string;
   password: string;
 }
 
-export interface IUserResponse {
+export interface IUser {
   first_name: string;
   last_name: string;
   readonly role: string;

@@ -2,10 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import {
-  IUserLoginRequest,
-  IUserResponse,
-} from 'src/app/interfaces/user.interface';
+import { IUserCredentials, IUser } from 'src/app/interfaces/user.interface';
 import { apiUrl } from 'src/app/constants/environment';
 
 @Injectable({
@@ -18,10 +15,10 @@ export class AuthService {
    * Perfoms a user login operation.
    *
    * @param user  the user login request data
-   * @returns {Observable<IUserResponse>} an Observable of type UserResponse
+   * @returns {Observable<IUser>} an Observable of type UserResponse
    */
-  login(user: IUserLoginRequest): Observable<IUserResponse> {
-    return this.http.post<IUserResponse>(`${apiUrl}/api/login`, user);
+  login(user: IUserCredentials): Observable<IUser> {
+    return this.http.post<IUser>(`${apiUrl}/api/login`, user);
   }
 
   isAdmin(): boolean {
