@@ -10,12 +10,12 @@ import {
   IAssesmentGraphResponse,
   IAssesmentResponse,
 } from '../interfaces/assesment.interface';
+import { apiUrl } from '../constants/environment';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  private apiUrl = 'https://user-assessment-api.vercel.app';
   constructor(private http: HttpClient) {}
 
   /**
@@ -25,7 +25,7 @@ export class ApiService {
    * @returns {Observable<UserResponse>} an Observable of type UserResponse
    */
   login(user: UserLoginRequest): Observable<UserResponse> {
-    return this.http.post<UserResponse>(`${this.apiUrl}/api/login`, user);
+    return this.http.post<UserResponse>(`${apiUrl}/api/login`, user);
   }
 
   /**
@@ -34,9 +34,7 @@ export class ApiService {
    * @returns {Observable<IAssesmentResponse>} an Observable of type AssesmentResponse
    */
   getAssesments(): Observable<IAssesmentResponse[]> {
-    return this.http.get<IAssesmentResponse[]>(
-      `${this.apiUrl}/api/userassessments`
-    );
+    return this.http.get<IAssesmentResponse[]>(`${apiUrl}/api/userassessments`);
   }
 
   /**
@@ -48,7 +46,7 @@ export class ApiService {
 
   getAssesmentGraph(id: number): Observable<IAssesmentGraphResponse> {
     return this.http.get<IAssesmentGraphResponse>(
-      `${this.apiUrl}/api/userassessments/graph`,
+      `${apiUrl}/api/userassessments/graph`,
       {
         params: new HttpParams().set('id', `${id}`),
       }
@@ -61,6 +59,6 @@ export class ApiService {
    * @returns {Observable<User>} an Observable of type User
    */
   getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/api/users`);
+    return this.http.get<User[]>(`${apiUrl}/api/users`);
   }
 }
