@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { AppState } from 'src/app/store';
-import { logout } from 'src/app/store/actions/user.actions';
+import { logout } from 'src/app/store/actions/auth.actions';
 
 @Component({
   selector: 'app-navigation',

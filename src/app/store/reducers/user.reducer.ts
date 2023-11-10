@@ -1,14 +1,13 @@
 import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
 import * as userActions from '../actions/user.actions';
+import * as authActions from '../actions/auth.actions';
 
 import { UserState } from '..';
 import { IAssesmentGraphResponse } from 'src/app/interfaces/assesment.interface';
-import { UserDto } from 'src/app/dtos/user-dto';
 import { localStorageSync } from 'ngrx-store-localstorage';
 import { IUserLoginRequest } from 'src/app/interfaces/user.interface';
 
 export const initialState: UserState = {
-  isLoggedIn: false,
   userAssesments: [],
   userAssesmentsloading: true,
   graphData: {} as IAssesmentGraphResponse,
@@ -20,12 +19,6 @@ export const initialState: UserState = {
 
 const userReducer = createReducer(
   initialState,
-  on(userActions.login, (state, action) => {
-    return { ...state, user: action.user };
-  }),
-  on(userActions.logout, (state) => {
-    return { ...state, isLoggedIn: false, user: {} as IUserLoginRequest };
-  }),
   on(userActions.loadUserAssesments, (state) => {
     return { ...state, userAssesmentsloading: true };
   }),

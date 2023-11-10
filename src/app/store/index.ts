@@ -16,7 +16,6 @@ export interface UserState {
   graphDataLoading: boolean;
   userData: IUser[];
   userDataLoading: boolean;
-  isLoggedIn: boolean;
   user: IUserLoginRequest;
 }
 
@@ -25,16 +24,6 @@ export interface AppState {
 }
 
 export const selectUser = createFeatureSelector<UserState>(userFeatureKey);
-
-export const selectIsLoggedIn = createSelector(
-  selectUser,
-  (state: UserState) => state.isLoggedIn
-);
-
-export const selectCurrentUser = createSelector(
-  selectUser,
-  (state: UserState) => state.user
-);
 
 export const selectUserAssesments = createSelector(
   selectUser,

@@ -3,8 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Store } from '@ngrx/store';
 
 import { IUserLoginRequest } from 'src/app/interfaces/user.interface';
-import { AppState, selectIsLoggedIn } from 'src/app/store';
-import { login } from 'src/app/store/actions/user.actions';
+import { AppState } from 'src/app/store';
+import { login } from 'src/app/store/actions/auth.actions';
 /**
  * LoginComponent: Manages user login functionality.
  * - It handles user login form submission.

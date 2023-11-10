@@ -52,14 +52,14 @@ export class GraphComponent implements OnInit {
     const snapshot: ActivatedRouteSnapshot = this.route.snapshot;
     const assesmentId = +snapshot.params['id'];
     this.setCharts();
-    this.getGraphData(assesmentId);
+    this.loadGraphData(assesmentId);
   }
 
   /**
    * Retrieves assessment graph data from the store.
    * @param id The assessment ID to fetch data for.
    */
-  private getGraphData(id: number): void {
+  private loadGraphData(id: number): void {
     this.store.dispatch(loadUserAssesmentsGraph({ id }));
   }
 

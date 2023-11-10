@@ -21,9 +21,9 @@ import {
   loadUserAssesmentsGraphComplete,
   loadUserData,
   loadUserDataComplete,
-  login,
-  logout,
 } from '../actions/user.actions';
+
+import { login, logout } from '../actions/auth.actions';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserDto } from 'src/app/dtos/user-dto';
 import { AuthService } from 'src/app/auth/services/auth.service';
