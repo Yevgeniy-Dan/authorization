@@ -23,6 +23,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatTableModule } from '@angular/material/table';
+import { MatIconModule } from '@angular/material/icon';
 
 import { NgChartsModule } from 'ng2-charts';
 
@@ -53,6 +54,7 @@ import { UserTableComponent } from './components/dashboard/user-table/user-table
     MatSidenavModule,
     MatPaginatorModule,
     MatTableModule,
+    MatIconModule,
     StoreModule.forRoot(
       { user: fromUser.reducer },
       { metaReducers: [fromUser.localStorageSyncReducer] }

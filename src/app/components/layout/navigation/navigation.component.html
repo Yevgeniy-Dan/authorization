@@ -1,34 +1,37 @@
-<nav
-  class="nav-container"
-  class="header"
-  *ngIf="(currentUser$ | async)?.isAuthorized"
->
-  <ng-container>
-    <ul class="nav-list">
-      <li>
-        <!-- TODO: Apply paths from constants src/app/constants/routes.ts  -->
-        <a
-          routerLink="/dashboard/assesments"
-          routerLinkActive="active"
-          ariaCurrentWhenActive="page"
-          class="nav-link"
-          >Assesments</a
-        >
-      </li>
-      <ng-container *ngIf="(currentUser$ | async)?.isAdmin">
+<div *ngIf="(currentUser$ | async)?.isAuthorized">
+  <div class="back-button-container">
+    <button mat-icon-button (click)="goBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+  </div>
+  <nav class="nav-container" class="header">
+    <ng-container>
+      <ul class="nav-list">
         <li>
+          <!-- TODO: Apply paths from constants src/app/constants/routes.ts  -->
           <a
-            routerLink="/dashboard/users"
+            routerLink="/dashboard/assesments"
             routerLinkActive="active"
             ariaCurrentWhenActive="page"
             class="nav-link"
-            >Users</a
+            >Assesments</a
           >
         </li>
-      </ng-container>
-    </ul>
-  </ng-container>
-  <div class="logout-button-container">
-    <button mat-raised-button (click)="logout()">Logout</button>
-  </div>
-</nav>
+        <ng-container *ngIf="(currentUser$ | async)?.isAdmin">
+          <li>
+            <a
+              routerLink="/dashboard/users"
+              routerLinkActive="active"
+              ariaCurrentWhenActive="page"
+              class="nav-link"
+              >Users</a
+            >
+          </li>
+        </ng-container>
+      </ul>
+    </ng-container>
+    <div class="logout-button-container">
+      <button mat-raised-button (click)="logout()">Logout</button>
+    </div>
+  </nav>
+</div>
