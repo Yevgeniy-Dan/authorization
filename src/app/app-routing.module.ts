@@ -7,31 +7,37 @@ import { UserAssesmentCardsComponent } from './components/dashboard/user-assesme
 import { GraphComponent } from './components/dashboard/graph/graph.component';
 import { UserTableComponent } from './components/dashboard/user-table/user-table.component';
 import { AdminGuard } from './auth/guards/admin.guard';
+import {
+  dashboardPath,
+  loginPath,
+  userassesmentsPath,
+  usersPath,
+} from './constants/routes';
 
 const routes: Routes = [
-  { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: dashboardPath, pathMatch: 'full' },
   {
-    path: 'login',
+    path: loginPath,
     loadChildren: () => import('./auth/auth.module').then((m) => m.AuthModule),
   },
   {
-    path: 'dashboard',
+    path: dashboardPath,
     canActivate: [AuthGuard],
     children: [
       { path: '', redirectTo: 'userassesments', pathMatch: 'full' },
-      { path: 'userassesments/:id', component: GraphComponent },
+      { path: `${userassesmentsPath}/:id`, component: GraphComponent },
       {
-        path: 'userassesments',
+        path: userassesmentsPath,
         component: UserAssesmentCardsComponent,
       },
       {
-        path: 'users',
+        path: usersPath,
         component: UserTableComponent,
         canActivate: [AdminGuard],
       },
     ],
   },
-  { path: '**', redirectTo: 'dashboard' },
+  { path: '**', redirectTo: dashboardPath },
 ];
 
 @NgModule({
