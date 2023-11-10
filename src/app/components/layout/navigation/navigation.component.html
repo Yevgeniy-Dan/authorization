@@ -1,10 +1,10 @@
-<div *ngIf="(currentUser$ | async)?.isAuthorized">
+<div *ngIf="(currentUser$ | async)?.isAuthorized" class="nav-container">
   <div class="back-button-container">
     <button mat-icon-button (click)="goBack()">
       <mat-icon>arrow_back</mat-icon>
     </button>
   </div>
-  <nav class="nav-container" class="header">
+  <nav class="nav-menu">
     <ng-container>
       <ul class="nav-list">
         <li>

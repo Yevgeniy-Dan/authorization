@@ -5,6 +5,9 @@ import { Store } from '@ngrx/store';
 import { IUserCredentials } from 'src/app/interfaces/user.interface';
 import { AppState } from 'src/app/store';
 import { login } from 'src/app/store/actions/auth.actions';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+import { dashboardPath } from 'src/app/constants/routes';
 /**
  * LoginComponent: Manages user login functionality.
  * - It handles user login form submission.
@@ -22,9 +25,19 @@ export class LoginComponent implements OnInit {
     password: [null, [Validators.required]],
   });
 
-  constructor(private fb: FormBuilder, private store: Store<AppState>) {}
+  constructor(
+    private fb: FormBuilder,
+    private store: Store<AppState>,
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    // Check if the user is already authenticated
+    if (this.authService.isAuthorized()) {
+      this.router.navigate([dashboardPath]);
+    }
+  }
 
   /**
    * Handles user login form submission.
