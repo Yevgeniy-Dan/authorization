@@ -1,0 +1,60 @@
+.nav-container {
+  margin: 30px 0;
+}
+
+.nav-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+}
+
+.nav-list li {
+  margin-right: 20px;
+  font-size: 20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--secondary-color);
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+.nav-link:hover {
+  color: var(--primary-color);
+}
+
+.active {
+  color: var(--primary-color);
+}
+
+.nav-menu {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.justify-end {
+  justify-content: end;
+}
+
+@media (max-width: 400px) {
+  .nav-menu {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .justify-end {
+    align-items: flex-end;
+  }
+
+  button.mat-raised-button {
+    order: 1;
+  }
+
+  app-navigation {
+    order: 2;
+  }
+}

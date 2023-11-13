@@ -1,0 +1,26 @@
+<div class="loading-container" *ngIf="loading$ | async; else showAssesments">
+  <mat-spinner></mat-spinner>
+</div>
+
+<ng-template #showAssesments>
+  <mat-grid-list
+    [cols]="breakpoint"
+    gutterSize="20px"
+    rowHeight="350px"
+    class="mat-grid-list"
+  >
+    <mat-grid-tile *ngFor="let card of userAssesments$ | async">
+      <mat-card class="card" (click)="navigateToAssesment(card)">
+        <img [src]="card.image_url" alt="{{ card.name }}" class="card-image" />
+        <mat-card-header>
+          <mat-card-title>
+            {{ card.name }}
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="card-content">
+          <p>Users Resolved: {{ card.users_resolved }}</p>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</ng-template>
