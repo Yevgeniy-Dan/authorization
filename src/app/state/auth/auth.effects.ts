@@ -4,14 +4,15 @@ import { catchError, map, switchMap, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { IUserCredentials, IUser } from 'src/app/interfaces/user.interface';
-import { setCurrentUser } from '../actions/user.actions';
+import { setCurrentUser } from '../user';
 
-import { login, logout } from '../actions/auth.actions';
+import { login, logout, setAuthOptions } from './auth.actions';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { UserDto } from 'src/app/dtos/user-dto';
 import { AuthService } from 'src/app/auth/services/auth.service';
 import { Store } from '@ngrx/store';
-import { AppState } from '..';
+import { IAppState } from '../app.state';
+import { IAuthState } from './auth.state';
 
 @Injectable()
 export class AuthEffects {
@@ -52,7 +53,7 @@ export class AuthEffects {
     private actions$: Actions,
     private authService: AuthService,
     private router: Router,
-    private store: Store<AppState>,
+    private store: Store<IAppState>,
     private _snackBar: MatSnackBar
   ) {}
 
@@ -74,11 +75,16 @@ export class AuthEffects {
     localStorage.setItem('token', response.token);
     localStorage.setItem('role', response.role);
 
-    const isAdmin = response.role === 'Admin';
     const { token, role, ...user } = response;
-    const updatedUser: UserDto = { ...user, isAdmin, isAuthorized: true };
 
-    this.store.dispatch(setCurrentUser({ user: updatedUser }));
+    const authOpts: IAuthState = {
+      isAdmin: response.role === 'Admin',
+      isAuthorized: true,
+    };
+
+    this.store.dispatch(setCurrentUser({ user }));
+    this.store.dispatch(setAuthOptions({ authOpts }));
+
     this.router.navigate(['dashboard']);
   }
 }

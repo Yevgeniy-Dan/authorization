@@ -6,8 +6,8 @@ import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { IUserTableEntity } from 'src/app/interfaces/user.interface';
-import { AppState, selectUserTableData } from 'src/app/store';
-import { loadUserData } from 'src/app/store/actions/user.actions';
+import { IAppState } from 'src/app/state/app.state';
+import { loadUserData, selectUserTableData } from 'src/app/state/user';
 
 @Component({
   selector: 'app-user-table',
@@ -30,7 +30,7 @@ export class UserTableComponent implements AfterViewInit, OnDestroy {
   userData$: Observable<IUserTableEntity[]>;
   private userDataSubscription!: Subscription;
 
-  constructor(private store: Store<AppState>) {
+  constructor(private store: Store<IAppState>) {
     this.userData$ = this.store
       .select(selectUserTableData)
       .pipe(map((userTableData) => userTableData.data));

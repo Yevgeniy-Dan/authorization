@@ -6,8 +6,11 @@ import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { IAssesmentGraphResponse } from 'src/app/interfaces/assesment.interface';
-import { AppState, selectAssesmentGraphData } from 'src/app/store';
-import { loadUserAssesmentsGraph } from 'src/app/store/actions/user.actions';
+import { IAppState } from 'src/app/state/app.state';
+import {
+  loadUserAssesmentsGraph,
+  selectAssesmentGraphData,
+} from 'src/app/state/user';
 
 /**
  * GraphComponent: Manages the display of user assessment graphs.
@@ -32,10 +35,12 @@ export class GraphComponent implements OnInit {
 
   private dataSubscription!: Subscription;
 
-  constructor(private route: ActivatedRoute, private store: Store<AppState>) {
+  constructor(private route: ActivatedRoute, private store: Store<IAppState>) {
     this.data$ = this.store
       .select(selectAssesmentGraphData)
-      .pipe(map((graph) => graph.data));
+      .pipe(
+        map((graph) => (graph ? graph.data : ({} as IAssesmentGraphResponse)))
+      );
     this.loading$ = this.store
       .select(selectAssesmentGraphData)
       .pipe(map((graph) => graph.loading));
@@ -75,6 +80,8 @@ export class GraphComponent implements OnInit {
   }
 
   ngOnDestroy(): void {
-    this.dataSubscription.unsubscribe();
+    if (this.dataSubscription) {
+      this.dataSubscription.unsubscribe();
+    }
   }
 }

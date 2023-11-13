@@ -1,40 +1,11 @@
-import { Action, ActionReducer, createReducer, on } from '@ngrx/store';
-import * as userActions from '../actions/user.actions';
-import * as authActions from '../actions/auth.actions';
-
-import { UserState } from '..';
-import {
-  IAssesmentGraphResponse,
-  IAssesmentResponse,
-} from 'src/app/interfaces/assesment.interface';
-import { localStorageSync } from 'ngrx-store-localstorage';
-import { IUserCredentials } from 'src/app/interfaces/user.interface';
-import { UserDto } from 'src/app/dtos/user-dto';
-
-export const initialState: UserState = {
-  userAssesments: {
-    data: {} as IAssesmentResponse[],
-    loading: false,
-  },
-  graphData: {
-    data: {} as IAssesmentGraphResponse,
-    loading: false,
-  },
-  userTableData: {
-    data: [],
-    loading: false,
-  },
-  userCredentials: {} as IUserCredentials,
-  user: {} as UserDto,
-};
+import { Action, createReducer, on } from '@ngrx/store';
+import * as userActions from './user.actions';
+import { IUserState, initialState } from './user.state';
 
 const userReducer = createReducer(
   initialState,
   on(userActions.setCurrentUser, (state, { user }) => {
     return { ...state, user };
-  }),
-  on(authActions.logout, () => {
-    return initialState;
   }),
   on(userActions.loadUserAssesments, (state) => {
     return {
@@ -92,19 +63,6 @@ const userReducer = createReducer(
   })
 );
 
-export function reducer(state: UserState | undefined, action: Action) {
+export function reducer(state: IUserState | undefined, action: Action) {
   return userReducer(state, action);
-}
-
-const localStorageSyncConfig = {
-  keys: ['user'],
-  rehydrate: true,
-  storage: localStorage,
-  removeOnUndefined: true,
-};
-
-export function localStorageSyncReducer(
-  reducer: ActionReducer<any, Action>
-): ActionReducer<any, Action> {
-  return localStorageSync(localStorageSyncConfig)(reducer);
 }

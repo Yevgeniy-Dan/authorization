@@ -3,12 +3,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { take } from 'rxjs/operators';
 
-import { AuthService } from 'src/app/auth/services/auth.service';
-import { UserDto } from 'src/app/dtos/user-dto';
-import { AppState, selectCurrentUser } from 'src/app/store';
-import { logout } from 'src/app/store/actions/auth.actions';
+import { IAppState } from 'src/app/state/app.state';
+import { IAuthState, logout, selectAuth } from 'src/app/state/auth';
 
 @Component({
   selector: 'app-navigation',
@@ -16,11 +13,11 @@ import { logout } from 'src/app/store/actions/auth.actions';
   styleUrls: ['./navigation.component.css'],
 })
 export class NavigationComponent {
-  currentUser$: Observable<UserDto> = this.store.select(selectCurrentUser);
+  authOptions$: Observable<IAuthState> = this.store.select(selectAuth);
 
   constructor(
     private router: Router,
-    private store: Store<AppState>,
+    private store: Store<IAppState>,
     private location: Location
   ) {}
 

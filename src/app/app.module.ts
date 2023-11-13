@@ -14,7 +14,6 @@ import { AuthInterceptor } from './interceptors/auth-interceptor.interceptor';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { UserAssesmentCardsComponent } from './components/dashboard/user-assesment-cards/user-assesment-cards.component';
-import { UserEffects } from './store/effects/user.effects';
 
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
@@ -27,11 +26,14 @@ import { MatIconModule } from '@angular/material/icon';
 
 import { NgChartsModule } from 'ng2-charts';
 
-import * as fromUser from './store/reducers/user.reducer';
+import * as fromLocalStorage from './state/local-storage';
+
 import { GraphComponent } from './components/dashboard/graph/graph.component';
 import { NavigationComponent } from './components/layout/navigation/navigation.component';
 import { UserTableComponent } from './components/dashboard/user-table/user-table.component';
-import { AuthEffects } from './store/effects/auth.effects';
+import { UserEffects } from './state/user/user.effects';
+import { AuthEffects } from './state/auth/auth.effects';
+import { appReducers } from './state/app.state';
 
 @NgModule({
   declarations: [
@@ -56,10 +58,9 @@ import { AuthEffects } from './store/effects/auth.effects';
     MatPaginatorModule,
     MatTableModule,
     MatIconModule,
-    StoreModule.forRoot(
-      { user: fromUser.reducer },
-      { metaReducers: [fromUser.localStorageSyncReducer] }
-    ),
+    StoreModule.forRoot(appReducers, {
+      metaReducers: [fromLocalStorage.localStorageSyncReducer],
+    }),
     EffectsModule.forRoot([UserEffects, AuthEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,

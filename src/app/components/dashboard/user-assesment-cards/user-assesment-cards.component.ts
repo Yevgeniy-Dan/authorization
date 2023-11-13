@@ -1,12 +1,12 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Store, select } from '@ngrx/store';
-import { AppState, selectUserAssesments } from 'src/app/store';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
-import { loadUserAssesments } from 'src/app/store/actions/user.actions';
 import { IAssesmentResponse } from 'src/app/interfaces/assesment.interface';
 import { Router } from '@angular/router';
+import { IAppState } from 'src/app/state/app.state';
+import { loadUserAssesments, selectUserAssesments } from 'src/app/state/user';
 
 /**
  * UserAssesmentCardsComponent: Manages the display of user assessment cards.
@@ -24,7 +24,7 @@ export class UserAssesmentCardsComponent implements OnInit {
   userAssesments$: Observable<IAssesmentResponse[]>;
   loading$: Observable<boolean>;
 
-  constructor(private store: Store<AppState>, private router: Router) {
+  constructor(private store: Store<IAppState>, private router: Router) {
     this.userAssesments$ = this.store
       .select(selectUserAssesments)
       .pipe(map((assesments) => assesments.data));

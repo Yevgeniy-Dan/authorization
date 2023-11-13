@@ -16,7 +16,7 @@ import {
   loadUserAssesmentsGraphComplete,
   loadUserData,
   loadUserDataComplete,
-} from '../actions/user.actions';
+} from './user.actions';
 
 @Injectable()
 export class UserEffects {
@@ -39,9 +39,9 @@ export class UserEffects {
       ofType(loadUserAssesmentsGraph),
       mergeMap((action: { id: number }) => {
         return this.apiService.getAssesmentGraph(action.id).pipe(
-          map((graphData: IAssesmentGraphResponse) =>
-            loadUserAssesmentsGraphComplete({ graphData })
-          ),
+          map((graphData: IAssesmentGraphResponse) => {
+            return loadUserAssesmentsGraphComplete({ graphData });
+          }),
           catchError(() => EMPTY)
         );
       })
