@@ -1,5 +1,6 @@
 import { Location } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { take } from 'rxjs/operators';
@@ -18,13 +19,17 @@ export class NavigationComponent {
   currentUser$: Observable<UserDto> = this.store.select(selectCurrentUser);
 
   constructor(
-    private authService: AuthService,
+    private router: Router,
     private store: Store<AppState>,
     private location: Location
   ) {}
 
   goBack(): void {
     this.location.back();
+  }
+
+  isShowNavbar(): boolean {
+    return !this.router.url.includes('login');
   }
 
   /**

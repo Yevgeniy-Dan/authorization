@@ -19,25 +19,13 @@ import { dashboardPath } from 'src/app/constants/routes';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
   loginForm: FormGroup = this.fb.group({
     email: [null, [Validators.required, Validators.email]],
     password: [null, [Validators.required, Validators.minLength(8)]],
   });
 
-  constructor(
-    private fb: FormBuilder,
-    private store: Store<AppState>,
-    private authService: AuthService,
-    private router: Router
-  ) {}
-
-  ngOnInit(): void {
-    // Check if the user is already authenticated
-    if (this.authService.isAuthorized()) {
-      this.router.navigate([dashboardPath]);
-    }
-  }
+  constructor(private fb: FormBuilder, private store: Store<AppState>) {}
 
   /**
    * Handles user login form submission.
