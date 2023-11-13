@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, OnDestroy } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
+import { Observable, Subscription } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { IUserTableEntity } from 'src/app/interfaces/user.interface';
@@ -14,7 +14,7 @@ import { loadUserData } from 'src/app/store/actions/user.actions';
   templateUrl: './user-table.component.html',
   styleUrls: ['./user-table.component.css'],
 })
-export class UserTableComponent implements AfterViewInit {
+export class UserTableComponent implements AfterViewInit, OnDestroy {
   displayedColumns: string[] = [
     'name',
     'lastName',
@@ -28,6 +28,7 @@ export class UserTableComponent implements AfterViewInit {
   @ViewChild(MatPaginator) paginator!: MatPaginator;
 
   userData$: Observable<IUserTableEntity[]>;
+  private userDataSubscription!: Subscription;
 
   constructor(private store: Store<AppState>) {
     this.userData$ = this.store
@@ -37,13 +38,19 @@ export class UserTableComponent implements AfterViewInit {
 
   ngOnInit(): void {
     this.loadUserData();
-    this.userData$.subscribe((data: IUserTableEntity[]) => {
-      this.dataSource.data = data;
-    });
+    this.userDataSubscription = this.userData$.subscribe(
+      (data: IUserTableEntity[]) => {
+        this.dataSource.data = data;
+      }
+    );
   }
 
   ngAfterViewInit(): void {
     this.dataSource.paginator = this.paginator;
+  }
+
+  ngOnDestroy(): void {
+    this.userDataSubscription.unsubscribe();
   }
 
   /**

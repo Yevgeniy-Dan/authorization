@@ -31,6 +31,7 @@ import * as fromUser from './store/reducers/user.reducer';
 import { GraphComponent } from './components/dashboard/graph/graph.component';
 import { NavigationComponent } from './components/layout/navigation/navigation.component';
 import { UserTableComponent } from './components/dashboard/user-table/user-table.component';
+import { AuthEffects } from './store/effects/auth.effects';
 
 @NgModule({
   declarations: [
@@ -59,7 +60,7 @@ import { UserTableComponent } from './components/dashboard/user-table/user-table
       { user: fromUser.reducer },
       { metaReducers: [fromUser.localStorageSyncReducer] }
     ),
-    EffectsModule.forRoot([UserEffects]),
+    EffectsModule.forRoot([UserEffects, AuthEffects]),
     StoreDevtoolsModule.instrument({
       maxAge: 25,
     }),

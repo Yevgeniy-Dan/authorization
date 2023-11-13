@@ -22,7 +22,7 @@ import { dashboardPath } from 'src/app/constants/routes';
 export class LoginComponent implements OnInit {
   loginForm: FormGroup = this.fb.group({
     email: [null, [Validators.required, Validators.email]],
-    password: [null, [Validators.required]],
+    password: [null, [Validators.required, Validators.minLength(8)]],
   });
 
   constructor(
